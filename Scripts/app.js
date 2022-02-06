@@ -4,6 +4,35 @@
 "use strict";
 (function()
 {
+    //Created function for add a human resources link
+    function AddHrLink()
+    {
+        let hrListItem = document.createElement("li");
+        hrListItem.setAttribute("class","nav-item");
+        hrListItem.innerHTML = `<a class="nav-link" href="humanResources.html"><i class="fas fa-user-circle"></i> Human Resources</a>`;
+
+        let list = document.getElementsByTagName("ul")[0];    // Get the <ul> element to insert a new node
+        list.insertBefore(hrListItem, list.children[4]);
+    }
+
+    //function for Products link found in the Navbar above to Projects 
+    function ProjectNavLink()
+    {
+        //console.log('document.getElementsByClassName("nav-link")[2] = ', document.getElementsByClassName("nav-link")[2].textContent);
+        document.getElementsByClassName("nav-link")[2].innerHTML = '<i class="fas fa-project-diagram"></i> Projects';
+    }
+
+    //Created a function for Footer navbar
+    function NavbarFooter()
+    {
+       
+        let footerNavItem = document.createElement("nav");
+        footerNavItem.setAttribute("class","navbar fixed-bottom navbar-light bg-light");
+        footerNavItem.innerHTML = `<div class="container-fluid"><a class="navbar-brand" href="#">©CopyRight 2022</a>
+        </div>`
+        document.body.appendChild(footerNavItem);
+    }
+
     function DisplayHome()
     {
         console.log("Home Page");
@@ -14,108 +43,70 @@
             location.href = "about.html";
         });
 
-        // Step 1 - get a reference to an entry point(s) (insertion / deletion point)
-        let MainContent = document.getElementsByTagName("main")[0];
-        let DocumentBody = document.body;
         
-        // Step 2 - Create a HTML Element in memory
-        let MainParagraph = document.createElement("p");
-        let Article = document.createElement("article");
-        let ArticleParagraph = `<p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>`;
+        //Added Human Resources Link
+        AddHrLink();
 
-        // Step 3 - Configure new Element
-        MainParagraph.setAttribute("id", "MainParagraph");
-        MainParagraph.setAttribute("class", "mt-3");
-        let FirstString = "This is";
-        let SecondString = `${FirstString} the Main Paragraph`;
-        MainParagraph.textContent = SecondString;
-        Article.setAttribute("class", "container");
+        ProjectNavLink();
 
-
-        // Step 4 - perform insertion / deletion
-
-        // example of insert after (append)
-        MainContent.appendChild(MainParagraph);
-        Article.innerHTML = ArticleParagraph;
-        DocumentBody.appendChild(Article);
+        NavbarFooter();
 
     }
 
     function DisplayAboutPage()
     {
         console.log("About Us Page");
+        AddHrLink();
+        ProjectNavLink();
+        NavbarFooter();
     }
 
     function DisplayProductsPage()
     {
         console.log("Our Projects Page");
+        AddHrLink();
+        ProjectNavLink();
+        NavbarFooter();
     }
 
     function DisplayServicesPage()
     {
         console.log("Our Services Page");
+        AddHrLink();
+        ProjectNavLink();
+        NavbarFooter();
     }
+
 
     function DisplayContactPage()
     {
         console.log("Contact Us Page");
 
         let sendButton = document.getElementById("sendButton");
-        let subscribeCheckbox = document.getElementById("subscribeCheckbox");
+       
 
-        sendButton.addEventListener("click", function()
+        sendButton.addEventListener("click", function (event)
         {
-            if(subscribeCheckbox.checked)
-            {
-                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
-                if(contact.serialize())
-                {
-                    let key = contact.FullName.substring(0, 1) + Date.now();
+            event.preventDefault(); 
 
-                    localStorage.setItem(key, contact.serialize());
-                }
+            if (sendButton.click) {
+                let contact = new Contact(fullName.value, contactNumber.value, emailAddress.value);
+                console.log(contact.toString());
+                setTimeout(RedirectHome, 3000);
             }
         });
+        AddHrLink();
+        ProjectNavLink();
+        NavbarFooter();
+
     }
+    //This function will redirect home after 3 seconds
+    function RedirectHome()
+    { 
 
-    function DisplayContactListPage()
-    {
-        console.log("Contact-List Page");
-        if(localStorage.length > 0)
-        {
-            let contactList = document.getElementById("contactList");
-
-            let data = ""; // data container -> add deserialized data from the localStorage
-
-            let keys = Object.keys(localStorage); // returns a string array of keys
-
-            let index = 1; // counts how many keys
-
-            // for every key in the keys array (collection), loop
-            for (const key of keys) 
-            {
-                let contactData = localStorage.getItem(key); // get localStorage data value related to the key
-
-                let contact = new Contact(); // create a new empty contact object
-                contact.deserialize(contactData);
-
-                // inject a repeatable row into the contactList
-                data += `<tr>
-                <th scope="row" class="text-center">${index}</th>
-                <td>${contact.FullName}</td>
-                <td>${contact.ContactNumber}</td>
-                <td>${contact.EmailAddress}</td>
-                <td></td>
-                <td></td>
-                </tr>
-                `;
-
-                index++;
-            }
-
-            contactList.innerHTML = data;
-        }
+        location.href = "index.html";
     }
+    
 
 
     // named function
@@ -135,9 +126,6 @@
             break;
           case "Our Services":
             DisplayServicesPage();
-            break;
-          case "Contact-List":
-            DisplayContactListPage();
             break;
           case "Contact Us":
             DisplayContactPage();

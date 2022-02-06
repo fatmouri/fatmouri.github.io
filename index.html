@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="./Content/app.css">
 </head>
-<body>
+<body style="background-image: url('./Images/office.jpg'); height: 800px; background-repeat: no-repeat; background-size: cover; ">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -24,14 +24,15 @@
                     <a class="nav-link active" aria-current="page" href="index.html"><i class="fas fa-home"></i> Home</a>
                   </li>
                   <li class="nav-item">
+                    <a class="nav-link" href="about.html"><i class="fas fa-info"></i> About Us</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="nav-link" href="products.html"><i class="fas fa-project-diagram"></i> Products</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="services.html"><i class="fas fa-map-signs"></i> Services</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="about.html"><i class="fas fa-info"></i> About Us</a>
-                  </li>
+                  
                   <li class="nav-item">
                     <a class="nav-link" href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a>
                   </li>
@@ -41,14 +42,25 @@
           </nav>
     </header>
     <main class="container">
+        
         <h1 class= "mb-5">Welcome to our site</h1>
-        <button id="AboutUsButton" class="btn btn-primary">Learn More About Us!</button>
+        <h2>Looking for Web Developers</h2>
+        <div>
+          <p class="hero__copy h6">Our mission is to provide valuable services to our trusted clients. We understand our competition and we make your decision-making easier by 
+            being transparent about our strengths and weaknesses. We envision the future while keeping our clients’ goals in perspective. 
+            This is what makes us unique in the programming services industry.
+          </p>
+
+        </div>
+        <br style = line-height:100> 
+        <div>
+          <button id="AboutUsButton" class="btn btn-primary" style="background-color: #FF3392;">Learn More About Us!</button>
+
+        </div>
     </main>
     <!--Scripting Section-->
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    
     <script src="./Scripts/app.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@
     }
 
     //Created a function for Footer navbar
+    //src: https://getbootstrap.com/docs/5.1/components/navbar/
     function NavbarFooter()
     {
        
@@ -84,7 +85,7 @@
 
         let sendButton = document.getElementById("sendButton");
        
-
+        //Added timer
         sendButton.addEventListener("click", function (event)
         {
             event.preventDefault(); 

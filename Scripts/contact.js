@@ -1,5 +1,6 @@
-"use strict";
-class Contact
+(function (core) {
+
+    class Contact
 {
     // getters and setters
     get FullName()
@@ -33,7 +34,7 @@ class Contact
     }
 
     // constructor
-    constructor(fullName = "", contactNumber = "", emailAddress = "")
+    constructor(fullName ="", contactNumber = "", emailAddress = "")
     {
         this.FullName = fullName;
         this.ContactNumber = contactNumber;
@@ -52,18 +53,22 @@ class Contact
         return null;
     }
 
-    deserialize(data) // assume that data is in a comma-separated format (string array of properties)
+    deserialize(data) // assume that data is ina comma-separated format(string array of properties)
     {
-        let propertyArray = data.split(",");
+        let propertyArray = data.split(",")
         this.FullName = propertyArray[0];
         this.ContactNumber = propertyArray[1];
         this.EmailAddress = propertyArray[2];
     }
-
     // overridden methods
 
     toString()
     {
-        return `Full Name: ${this.FullName} \nContact Number: ${this.ContactNumber} \nEmail Address: ${this.EmailAddress}`;
+        return `Full Name    : ${this.FullName} \nContact Number: ${this.ContactNumber} \nEmail Address : ${this.EmailAddress}`;
     }
 }
+    
+    core.Contact = Contact;
+})(core || (core = {}));
+
+

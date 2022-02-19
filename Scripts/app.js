@@ -4,6 +4,60 @@
 "use strict";
 (function()
 {
+    /**
+     * This function uses AJAX to open a connection to the server and returns
+     * the data payload to the callback function 
+     * 
+     * @param {string} method 
+     * @param {string} url 
+     * @param {Function} callback 
+     */
+    function AjaxRequest(method,url,callback)
+    {
+        //AJAX STEPS
+        // Step 1. - instantiate an XHR Object
+        let XHR = new XMLHttpRequest();
+
+        // step 2. - add an event listener for readystatechange
+        XHR.addEventListener("readystatechange",()=>
+        {
+            if(XHR.readyState === 4 && XHR.status === 200)
+            {
+                if(typeof callback === "function")
+                {
+                    callback(XHR.responseText);
+                }
+                else
+                {
+                    console.error("Error: callback not a function");
+
+                }
+                
+                
+            }
+
+        });
+
+        // Step 3. - Open a connection to the server
+        XHR.open(method, url);
+
+        // Step 4. - Send the request to the server
+        XHR.send();
+
+    }
+    /**
+     * This function loads the header.html content into a page
+     * 
+     * @param {string} html_data 
+     */
+
+    function LoadHeader(html_data)
+    {
+        $("header").html(html_data);
+        $(`li>a:contains(${document.title})`).addClass("active"); //update the link
+        CheckLogin();
+    }
+
     function DisplayHome()
     {
         console.log("Home Page");
@@ -20,6 +74,7 @@
         <article class="container">
             <p id="ArticleParagraph" class="mt-3">This is the Article Paragraph</p>
             </article>`);
+        
         
 
     }
@@ -246,6 +301,84 @@
     function DisplayLoginPage()
     {
         console.log("Login Page");
+        let messageArea = $("#messageArea");
+        messageArea.hide();
+
+        $("#loginButton").on("click", function()
+        {
+            let success = false;
+
+            // create an empty user object
+            let newUser = new core.User();
+
+            // use jQuery shortcut to lod the users.json file
+            $.get("./Data/users.json", function(data)
+            {
+                // for every user in the users.json file, loop
+                for (const user of data.users) 
+                {
+                    // check if the username and password entered matches the user data
+                    if(username.value == user.Username && password.value == user.Password)
+                    {
+                        console.log("conditional passed!");
+                        // get the user data from the file and assign it to our empty user object
+                        newUser.fromJSON(user);
+                        success = true;
+                        break;
+                    }
+                }
+
+                 // if username and password matches..success! -> perform the login sequence
+                if(success)
+                {
+                    // add user to session storage
+                    sessionStorage.setItem("user", newUser.serialize());
+
+                    // hide any error message
+                    messageArea.removeAttr("class").hide();
+
+                    // redirect the user to the secure area of the site - contact-list.html
+                    location.href = "contact-list.html";
+                }
+                else
+                {
+                    // display an error message
+                    $("#username").trigger("focus").trigger("select");
+                    messageArea.addClass("alert alert-danger").text("Error: Invalid Login Credentials").show();
+                }
+            });
+        });
+
+        $("#cancelButton").on("click", function()
+        {
+            // clear the login form
+            document.forms[0].reset();
+
+            // return to the home page
+            location.href = "index.html";
+        });
+    }
+
+    function CheckLogin()
+    {
+        // if user is logged in, then...
+        if(sessionStorage.getItem("user"))
+        {
+            // swap out the login link for logout
+            $("#login").html(
+                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>`
+            );
+
+            $("#logout").on("click", function()
+            {
+                // perform logout
+                sessionStorage.clear();
+
+                // redirect back to login page
+                location.href = "login.html";
+            });
+        }
+
     }
 
     function DisplayRegisterPage()
@@ -256,6 +389,8 @@
     function Start()
     {
         console.log("App Started!!");
+
+        AjaxRequest("Get", "header.html", LoadHeader);
 
         switch (document.title) {
           case "Home":
